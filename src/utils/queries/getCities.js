@@ -1,10 +1,10 @@
 import {gql} from 'graphql-tag'
 import {client} from "../../apollo/client";
 
-const getCities = async () => {
-
-    const {data} = await client.query({
-        query: gql`
+// const getCities = async () => {
+//
+//     const {data} = await client.query({
+        const GET_CITIES =  gql`
             query {
   travelCities{
     data{
@@ -44,8 +44,8 @@ const getCities = async () => {
     }
   }
 }`
-    })
-    return data
-}
-
-export default getCities
+//     })
+//     return data
+// }
+//
+export default GET_CITIES

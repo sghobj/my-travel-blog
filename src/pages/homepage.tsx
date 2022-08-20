@@ -1,22 +1,9 @@
-import {
-    Box,
-    Image,
-    Flex,
-    Heading,
-    Center,
-    HStack,
-    Button,
-    Link,
-    Container,
-    Grid,
-    GridItem,
-    SimpleGrid,
-    Text
-} from '@chakra-ui/react'
+import {Box, Button, Center, Container, Flex, Heading, HStack, Image, Link, SimpleGrid, Text} from '@chakra-ui/react'
 import '../styles/css/home.css'
 import {ArrowForwardIcon} from "@chakra-ui/icons";
 import {useEffect, useState} from "react";
-import getCities from "../utils/queries/getCities";
+import GET_CITIES from "../utils/queries/getCities";
+import {useQuery} from "@apollo/client";
 
 const navLinks = [
     {
@@ -33,19 +20,25 @@ const navLinks = [
     },
 ]
 
+type ImageProps = {
+    url: string,
+    alternativeText: string
+}
+
 const HomePage = () => {
 
     const [cities, setCities] = useState([])
+    const {data} = useQuery(GET_CITIES)
+
 
     useEffect(() => {
-        const fetchCities = async () => {
-            const allCities = await getCities()
-            setCities(allCities)
+        if (data) {
+            const {travelCities} = data
+            setCities(travelCities.data)
         }
-        fetchCities().then()
-    }, [])
+    }, [data])
 
-    return(
+    return (
         <Box position={'relative'}>
             <Box
                 w={'100%'}
@@ -78,43 +71,50 @@ const HomePage = () => {
             </Center>
 
             <Container>
-                <Box id={'about-me'} sx={{width: '75%', margin: 'auto', border: '1px solid black', backgroundColor: '#FBF8F1'}}>
+                <Box id={'about-me'}
+                     sx={{width: '75%', margin: 'auto', border: '1px solid black', backgroundColor: '#FBF8F1'}}>
                     <Heading mt={2}>About Me</Heading>
                     <Box p={5}>
-                        <Text textAlign={'justify'}>My name is Sarah Ghobj, a passionate frontend developer, athletic and artist. Travelling is one of my other hobbies,
-                              I love exploring new places and share my experience with others maybe it can inspire others when planning next holiday destinations.</Text>
+                        <Text textAlign={'justify'}>My name is Sarah Ghobj, a passionate frontend developer, athletic
+                                                    and artist. Travelling is one of my other hobbies,
+                                                    I love exploring new places and share my experience with others
+                                                    maybe it can inspire others when planning next holiday
+                                                    destinations.</Text>
                     </Box>
                 </Box>
 
-                <SimpleGrid columns={2} alignItems={'center'} mb={4}>
-                        <Heading size={'lg'} fontFamily={'Ubuntu'} textAlign={'left'}>Highlights</Heading>
-                        <Link variant={'h4'} textAlign={'right'} color={'#30D5C8'}>Check more <ArrowForwardIcon/> </Link>
+                <SimpleGrid columns={2} alignItems={'center'} mt={4} mb={4}>
+                    <Heading size={'lg'} fontFamily={'Ubuntu'} textAlign={'left'}>Gallery</Heading>
+                    <Link variant={'h4'} textAlign={'right'} color={'#30D5C8'}>Check more <ArrowForwardIcon /> </Link>
                 </SimpleGrid>
-                <SimpleGrid columns={{ base: 1, md: 2, lg: 3, xl: 4 }} spacing={6}>
-                    {cities.slice(0,1).map(city => {
-                        console.log(city)
-                        return(
-                            <Box gridColumn={{md: 'auto/span 2', lg: '1/-1', xl: 'auto/ span 2'}} gridRow={{xl: 'auto / span 2'}}>
-                                <Image src={'https://res.cloudinary.com/dsyxohckg/image/upload/v1660096238/IMG_20210731_161530_66258ba27f.jpg'} />
+                <SimpleGrid m={'auto'} columns={{base: 1, sm: 2, md: 2, lg: 3, xl: 4}} spacing={6}>
+                    {cities?.map((city) => {
+                        const {
+                            id, attributes: {
+                                name, images: cityImages, text, country
+                            }
+                        } = city
+
+                        const {data} = cityImages
+
+                        const {
+                            attributes: {
+                                url, alternativeText
+                            }
+                        } = data[0]
+
+                        return (
+                            <Box
+                                h={{base: 400, md: 450, xl: '100%'}}
+                                // w={{base: '100%', sm:'100%', md: 350, lg: 350, xl: '100%'}}
+                                key={id}
+                            >
+                                <Image h={'100%'} w={'100%'} objectFit={'fill'} src={url} />
                             </Box>
                         )
+
                     })}
 
-                        <Box>
-                            <Image src={'https://res.cloudinary.com/dsyxohckg/image/upload/v1660096238/IMG_20210731_161530_66258ba27f.jpg'} />
-                        </Box>
-                        <Box>
-                            <Image src={'https://res.cloudinary.com/dsyxohckg/image/upload/v1660096238/IMG_20210731_161530_66258ba27f.jpg'} />
-                        </Box>
-                    <Box>
-                        <Image src={'https://res.cloudinary.com/dsyxohckg/image/upload/v1660096238/IMG_20210731_161530_66258ba27f.jpg'} />
-                    </Box>
-                    <Box>
-                        <Image src={'https://res.cloudinary.com/dsyxohckg/image/upload/v1660096238/IMG_20210731_161530_66258ba27f.jpg'} />
-                    </Box>
-                    <Box>
-                        <Image src={'https://res.cloudinary.com/dsyxohckg/image/upload/v1660096238/IMG_20210731_161530_66258ba27f.jpg'} />
-                    </Box>
                 </SimpleGrid>
             </Container>
 
