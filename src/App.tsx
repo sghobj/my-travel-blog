@@ -5,14 +5,18 @@ import "@fontsource/bad-script"
 import './App.css';
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import HomePage from "./pages/homepage";
+import CityDetails from "./pages/CityDetails";
+import Navigation from "./components/navigation";
 
 
 function App() {
   return (
     <div className="App">
+        <Navigation />
         <BrowserRouter>
             <Routes>
                 <Route path={'/'} element={<HomePage />} />
+                <Route path={'/:city'} element={<CityDetails />} />
             </Routes>
         </BrowserRouter>
     </div>

@@ -1,24 +1,30 @@
-import {gql} from 'graphql-tag'
-import {client} from "../../apollo/client";
+import gql from "graphql-tag";
 
-const getCityDetails = async (id) => {
-
-    const {data} = await client.query({
-        query: gql`
-        query {
-  travelCity(id: ${id}){
-    data{
-      id
-      attributes{
-        name
-        text
-        country {
-          data{
+const GET_CITY_DETAILS = gql`
+  query($name: String!) {
+      travelCities(filters: {name: {eq: $name}}){
+        data{
+            id
             attributes{
-              name
+             name
+             text
+             images {
+                data {
+                    attributes {
+                        url
+                        alternativeText
+                        height
+                        width
+                    }
+                }
+             }
+             country {
+                data{
+                    attributes{
+                        name
+                    }
+                }
             }
-          }
-        }
         places{
           name
           description
@@ -26,6 +32,7 @@ const getCityDetails = async (id) => {
             data{
               attributes{
                 url
+                alternativeText
               }
             }
           }
@@ -34,8 +41,6 @@ const getCityDetails = async (id) => {
     }
   }
 }`
-    })
-    return data
-}
 
-export default getCityDetails
+
+export default GET_CITY_DETAILS
