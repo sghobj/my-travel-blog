@@ -17,6 +17,10 @@ function App() {
         <Helmet>
             <title>Sarah Ghobj Travel Blog</title>
             <meta name="description" content="Sharing my travel experience and photos I take while exploring new places" />
+            <meta
+                name="keywords"
+                content="Travel, Sarah Ghobj, Blog, Tourism, Visit Germany"
+            />
         </Helmet>
         <Navigation />
         <BrowserRouter>
