@@ -6,7 +6,7 @@ import './App.css';
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import HomePage from "./pages/homepage";
 import CityDetails from "./pages/CityDetails";
-import Navigation from "./components/navigation";
+import Navigation from "./components/navigation/navigation";
 
 
 function App() {
