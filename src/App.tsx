@@ -8,11 +8,16 @@ import HomePage from "./pages/homepage";
 import CityDetails from "./pages/CityDetails";
 import Navigation from "./components/navigation/navigation";
 import Gallery from "./pages/Gallery";
+import {Helmet} from 'react-helmet'
 
 
 function App() {
   return (
     <div className="App">
+        <Helmet>
+            <title>Sarah Ghobj Travel Blog</title>
+            <meta name="description" content="Sharing my travel experience and photos I take while exploring new places" />
+        </Helmet>
         <Navigation />
         <BrowserRouter>
             <Routes>

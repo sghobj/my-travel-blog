@@ -2,7 +2,8 @@ import {Box, Container, Grid, GridItem, Heading, Image, ImageProps, Text} from "
 import {useQuery} from "@apollo/client";
 import {useParams} from "react-router-dom";
 import GET_CITY_DETAILS from "../utils/queries/getCityDetails";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
+import {Helmet} from 'react-helmet'
 
 
 const CityDetails = () => {
@@ -45,6 +46,10 @@ const CityDetails = () => {
 
     return (
         <Box>
+            <Helmet>
+                <title>Stuttgart, Germany</title>
+                <meta name="description" content="Sharing my travel experience and photos I take while exploring new places" />
+            </Helmet>
             <Box>
                 {cityImages?.map((image, index) => {
 
