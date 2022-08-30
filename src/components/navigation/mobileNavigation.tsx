@@ -29,7 +29,7 @@ const MobileNav = () => {
     return(
         <Flex>
             <Button ref={btnRef} onClick={onOpen}>
-                <HamburgerIcon size="26px" />
+                <HamburgerIcon />
             </Button>
 
             <Drawer
