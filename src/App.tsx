@@ -16,6 +16,7 @@ function App() {
     <div className="App">
         <Helmet>
             <title>Sarah Ghobj Travel Blog</title>
+            <link rel="canonical" href="https://my-travel-blog.vercel.app" />
             <meta name="description" content="Sharing my travel experience and photos I take while exploring new places" />
             <meta
                 name="keywords"
