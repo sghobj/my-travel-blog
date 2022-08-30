@@ -27,7 +27,6 @@ const Navigation = () => {
 
     useEffect(() => {
 
-        console.log(isMobile)
     }, [isMobile])
 
     return(

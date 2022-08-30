@@ -1,5 +1,20 @@
-import {Box, Button, Drawer, DrawerBody,
-    DrawerCloseButton, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, Flex, HStack, Link, useDisclosure, VStack} from "@chakra-ui/react";
+import {
+    Box,
+    Button,
+    Drawer,
+    DrawerBody,
+    DrawerCloseButton,
+    DrawerContent,
+    DrawerFooter,
+    DrawerHeader,
+    DrawerOverlay,
+    Flex,
+    HStack,
+    Link,
+    Text,
+    useDisclosure,
+    VStack
+} from "@chakra-ui/react";
 import {useRef} from "react";
 import {HamburgerIcon} from "@chakra-ui/icons";
 
@@ -27,23 +42,33 @@ const MobileNav = () => {
     const btnRef = useRef();
 
     return(
-        <Flex>
-            <Button ref={btnRef} onClick={onOpen}>
-                <HamburgerIcon />
+        <Flex position={'absolute'} zIndex={1}>
+            <Button variant={'text'} ref={btnRef} onClick={onOpen}>
+                <HamburgerIcon color={'black'}/>
             </Button>
 
             <Drawer
                 isOpen={isOpen}
                 onClose={onClose}
+                placement={'left'}
                 finalFocusRef={btnRef}
+                closeOnEsc={true}
             >
-                <VStack alignItems="left">
-                    {navLinks.map((item, i) => (
-                        <Link key={i} href={item.link}>
-                            <Button variant='text' > {item.title} </Button>
-                        </Link>
-                    ))}
-                </VStack>
+                <DrawerOverlay />
+                <DrawerContent>
+                    <DrawerCloseButton />
+                    <DrawerHeader>Menu</DrawerHeader>
+                    <DrawerBody alignItems="left">
+                        {navLinks.map((item, i) => (
+                            <Link key={i} href={item.link}>
+                                <Text> {item.title} </Text>
+                            </Link>
+                        ))}
+                    </DrawerBody>
+                    <DrawerFooter m={8} justifyContent={'center'}>
+                        <Text textAlign={'left'}>Sarah Ghobj</Text>
+                    </DrawerFooter>
+                </DrawerContent>
             </Drawer>
         </Flex>
     )
