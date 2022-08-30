@@ -43,8 +43,8 @@ const MobileNav = () => {
 
     return(
         <Flex position={'absolute'} zIndex={1}>
-            <Button variant={'text'} ref={btnRef} onClick={onOpen}>
-                <HamburgerIcon color={'black'}/>
+            <Button variant={'text'} ref={btnRef} onClick={onOpen} sx={{ m: 5, borderRadius: 0, backgroundColor: 'rgba(0,0,0,0.4)'}}>
+                <HamburgerIcon color={'white'} fontSize={'2xl'}/>
             </Button>
 
             <Drawer
@@ -52,16 +52,15 @@ const MobileNav = () => {
                 onClose={onClose}
                 placement={'left'}
                 finalFocusRef={btnRef}
-                closeOnEsc={true}
             >
                 <DrawerOverlay />
                 <DrawerContent>
-                    <DrawerCloseButton />
+                    <DrawerCloseButton fontSize={'2xl'}/>
                     <DrawerHeader>Menu</DrawerHeader>
-                    <DrawerBody alignItems="left">
+                    <DrawerBody>
                         {navLinks.map((item, i) => (
                             <Link key={i} href={item.link}>
-                                <Text> {item.title} </Text>
+                                <Text mb={2}> {item.title} </Text>
                             </Link>
                         ))}
                     </DrawerBody>

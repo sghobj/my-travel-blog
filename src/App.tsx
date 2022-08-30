@@ -7,6 +7,7 @@ import {BrowserRouter, Route, Routes} from "react-router-dom";
 import HomePage from "./pages/homepage";
 import CityDetails from "./pages/CityDetails";
 import Navigation from "./components/navigation/navigation";
+import Gallery from "./pages/Gallery";
 
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
         <BrowserRouter>
             <Routes>
                 <Route path={'/'} element={<HomePage />} />
+                <Route path={'/photos'} element={<Gallery />} />
                 <Route path={'/:city'} element={<CityDetails />} />
             </Routes>
         </BrowserRouter>
