@@ -31,13 +31,12 @@ const CityDetails = () => {
                 }
             } = travelCities.data[0]
 
-
             setCityName(name)
             setDescription(text)
-            setCountry(country)
+            setCountry(country.data)
+            console.log(country)
             setCityImages(images.data)
             setCityPlaces(places)
-
         }
 
     }, [data])
@@ -46,7 +45,7 @@ const CityDetails = () => {
     return (
         <Box>
             <Helmet>
-                <title>{cityName}, {country}</title>
+                <title>{cityName}</title>
                 <meta name="description" content="Sharing my travel experience and photos I take while exploring new places" />
             </Helmet>
             <Box>
