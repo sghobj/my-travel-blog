@@ -43,11 +43,10 @@ const CityDetails = () => {
     }, [data])
 
 
-
     return (
         <Box>
             <Helmet>
-                <title>`${cityName}, {country}`</title>
+                <title>{cityName}, {country}</title>
                 <meta name="description" content="Sharing my travel experience and photos I take while exploring new places" />
             </Helmet>
             <Box>
