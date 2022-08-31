@@ -47,7 +47,7 @@ const CityDetails = () => {
     return (
         <Box>
             <Helmet>
-                <title>Stuttgart, Germany</title>
+                <title>{cityName}, {country}</title>
                 <meta name="description" content="Sharing my travel experience and photos I take while exploring new places" />
             </Helmet>
             <Box>

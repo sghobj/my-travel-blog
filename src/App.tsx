@@ -17,6 +17,7 @@ function App() {
         <Helmet>
             <title>Sarah Ghobj Travel Blog</title>
             <link rel="canonical" href="https://my-travel-blog.vercel.app" />
+            <meta name="google-site-verification" content="joTOD-MF_5tIA1ru-_K9V-gAZBiptZ9NZOB_yuMeWmk" />
             <meta name="description" content="Sharing my travel experience and photos I take while exploring new places" />
             <meta
                 name="keywords"
