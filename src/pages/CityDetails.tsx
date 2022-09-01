@@ -4,7 +4,6 @@ import {useParams} from "react-router-dom";
 import GET_CITY_DETAILS from "../utils/queries/getCityDetails";
 import React, {useEffect, useState} from "react";
 import {Helmet} from 'react-helmet-async'
-import GET_COVER_IMAGE from "../utils/queries/getCoverImage";
 import {isMobile, useMobileOrientation} from "react-device-detect";
 import Navigation from "../components/navigation/navigation";
 
@@ -47,7 +46,7 @@ const CityDetails = () => {
     }, [data])
 
     const renderMobileView = () => {
-        return(
+        return (
             <Box>
                 {cityImages?.map((image, index) => {
                     const {
@@ -71,29 +70,42 @@ const CityDetails = () => {
     const renderDesktopView = () => {
         return (
             <Box>
-                    <Heading variant={'h4'}>{cityName}</Heading>
-                <Box>
-                    {cityImages?.map((image, index) => {
-                        const {
-                            attributes: {
-                                url, alternativeText
-                            }
-                        } = image
+                <SimpleGrid columns={{sm: 1, md: 2, lg: 2, xl: 2}} position={'relative'}>
+                    <Box display={'flex'} w={{lg: '30rem'}} h={{lg: '30rem'}} bg={'gray'} m={ 'auto'} borderRadius={'50%'}>
+                        <Box display={'flex'} w={{lg: '80%'}} h={{lg: '80%'}} bg={'white'} m={ 'auto'} borderRadius={'50%'}>
+                            <Heading variant={'h2'} size={'4xl'} m={{sm: '1rem auto', md: 'auto auto'}}>{cityName}</Heading>
+                        </Box>
+                    </Box>
+                    <Box>
+                        {cityImages?.map((image, index) => {
+                            const {
+                                attributes: {
+                                    url, alternativeText
+                                }
+                            } = image
 
-                        return (
-                            <Box key={index} justifyContent={'center'}>
-                                <Image src={url} w={500}
-                                       h={700}
-                                       objectFit={'cover'} m={'auto'} />
-                            </Box>
-                        )
-                    })}
-                </Box>
+                            return (
+                                <Box key={index} justifyContent={'center'} p={{sm: 10}}>
+                                    <Image src={url} w={700}
+                                           h={700}
+                                           objectFit={'cover'} m={'auto'} />
+                                </Box>
+                            )
+                        })}
+                    </Box>
+                </SimpleGrid>
+
+                {description &&
+                <Container w={{lg: '50%'}} p={'20px 40px'}>
+                    <VStack m={'auto'}>
+                        <Heading size={'xl'}>Description</Heading>
+                        <Text textAlign={'justify'}>{description}</Text>
+                    </VStack>
+                </Container>
+                }
             </Box>
-
         )
     }
-
 
     return (
         <Box>
@@ -102,17 +114,11 @@ const CityDetails = () => {
                 <meta name="description"
                       content="Sharing my travel experience and photos I take while exploring new places" />
             </Helmet>
-            <Navigation home={false}/>
+            <Navigation home={false} />
             <Box w={'100%'}>
                 {isMobile ? renderMobileView() : renderDesktopView()}
             </Box>
             <Container>
-                {cityName && <Heading size={'xl'} sx={{color: 'black'}}>{cityName}</Heading>}
-                {description &&
-                <Box mt={4} textAlign={'justify'}>
-                    <Text>{description}</Text>
-                </Box>
-                }
                 <Grid mt={8} templateColumns={{base: 'repeat(1, 1fr)', sm: 'repeat(2, 1fr)'}} gap={4}>
                     {cityPlaces && cityPlaces.map((place, index) => {
                         const {
