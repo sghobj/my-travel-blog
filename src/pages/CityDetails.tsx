@@ -1,20 +1,25 @@
-import {Box, Container, Grid, GridItem, Heading, Image, ImageProps, Text} from "@chakra-ui/react";
+import {Box, Container, Grid, GridItem, Heading, Image, SimpleGrid, Text, VStack} from "@chakra-ui/react";
 import {useQuery} from "@apollo/client";
 import {useParams} from "react-router-dom";
 import GET_CITY_DETAILS from "../utils/queries/getCityDetails";
 import React, {useEffect, useState} from "react";
-import {Helmet} from 'react-helmet'
+import {Helmet} from 'react-helmet-async'
+import GET_COVER_IMAGE from "../utils/queries/getCoverImage";
+import {isMobile, useMobileOrientation} from "react-device-detect";
 
 
 const CityDetails = () => {
 
     const [cityName, setCityName] = useState('')
     const [description, setDescription] = useState('')
-    const [country, setCountry] = useState()
+    const [country, setCountry] = useState('')
     const [cityImages, setCityImages] = useState([])
     const [cityPlaces, setCityPlaces] = useState([])
 
+    const {isPortrait} = useMobileOrientation()
+
     const {city} = useParams()
+    const {data: media} = useQuery(GET_COVER_IMAGE)
     const {data} = useQuery(GET_CITY_DETAILS, {
         variables: {
             name: city
@@ -22,6 +27,10 @@ const CityDetails = () => {
     })
 
     useEffect(() => {
+        if (media) {
+            console.log(media)
+        }
+
         if (data) {
             const {travelCities} = data
             const {
@@ -33,34 +42,73 @@ const CityDetails = () => {
 
             setCityName(name)
             setDescription(text)
-            setCountry(country.data)
-            console.log(country)
+            setCountry(country.data.attributes.name)
             setCityImages(images.data)
             setCityPlaces(places)
         }
 
-    }, [data])
+    }, [data, media])
+
+    const renderMobileView = () => {
+        return(
+            <Box>
+                {cityImages?.map((image, index) => {
+                    const {
+                        attributes: {
+                            url, alternativeText
+                        }
+                    } = image
+
+                    return (
+                        <Box key={index} justifyContent={'center'}>
+                            <Image src={url} w={{base: '100vw'}}
+                                   h={{base: '50vh', md: '100vh'}}
+                                   objectFit={{base: 'cover'}} m={'auto'} />
+                        </Box>
+                    )
+                })}
+            </Box>
+        )
+    }
+
+    const renderDesktopView = () => {
+        return (
+            <SimpleGrid columns={{sm: 12, md: 6, lg: 6, xl: 6}} spacing={6}>
+                <VStack>
+
+                </VStack>
+                <Box>
+                    {cityImages?.map((image, index) => {
+                        const {
+                            attributes: {
+                                url, alternativeText
+                            }
+                        } = image
+
+                        return (
+                            <Box key={index} justifyContent={'center'}>
+                                <Image src={url} w={{base: '100vw'}}
+                                       h={{base: '50vh', md: '100vh'}}
+                                       objectFit={{base: 'cover'}} m={'auto'} />
+                            </Box>
+                        )
+                    })}
+                </Box>
+            </SimpleGrid>
+
+        )
+    }
 
 
     return (
         <Box>
             <Helmet>
                 <title>{cityName}</title>
-                <meta name="description" content="Sharing my travel experience and photos I take while exploring new places" />
+                <meta name="description"
+                      content="Sharing my travel experience and photos I take while exploring new places" />
             </Helmet>
             <Box>
-                {cityImages?.map((image, index) => {
-
-                    const {
-                         attributes: {
-                            url, alternativeText
-                        }
-                    } = image
-
-                    return (
-                        <Image key={index} src={url} h={{base: '50vh', md: '100vh'}} w={'100vw'} objectFit={'cover'} />
-                    )
-                })}
+                {isMobile ? renderMobileView() : renderDesktopView()}
             </Box>
             <Container>
                 <Heading size={'xl'} sx={{color: 'black'}}>{cityName}</Heading>
@@ -81,10 +129,12 @@ const CityDetails = () => {
                                 <Box>
                                     <Box>
                                         {placeImages.data && placeImages.data.map((img, i) => {
-                                            const {id, attributes: {
-                                                url
-                                            }} = img
-                                            return(
+                                            const {
+                                                id, attributes: {
+                                                    url
+                                                }
+                                            } = img
+                                            return (
                                                 <Image key={i} src={url} />
 
                                             )

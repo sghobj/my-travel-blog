@@ -30,14 +30,15 @@ const Navigation = () => {
     }, [isMobile])
 
     return(
-        <Box position={'relative'}>
+        <Box position={'relative'} >
             {isMobile ? <MobileNav /> :
                 <Box
                     w={'100%'}
+                    m={'auto'}
                     px="6"
                     py="5"
                     bg={'transparent'}
-                    display={'block'}
+                    display={'flex'}
                     position={'absolute'}
                     zIndex={1}
                 >
