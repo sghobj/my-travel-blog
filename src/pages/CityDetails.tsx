@@ -6,6 +6,7 @@ import React, {useEffect, useState} from "react";
 import {Helmet} from 'react-helmet-async'
 import GET_COVER_IMAGE from "../utils/queries/getCoverImage";
 import {isMobile, useMobileOrientation} from "react-device-detect";
+import Navigation from "../components/navigation/navigation";
 
 
 const CityDetails = () => {
@@ -19,7 +20,6 @@ const CityDetails = () => {
     const {isPortrait} = useMobileOrientation()
 
     const {city} = useParams()
-    const {data: media} = useQuery(GET_COVER_IMAGE)
     const {data} = useQuery(GET_CITY_DETAILS, {
         variables: {
             name: city
@@ -27,9 +27,6 @@ const CityDetails = () => {
     })
 
     useEffect(() => {
-        if (media) {
-            console.log(media)
-        }
 
         if (data) {
             const {travelCities} = data
@@ -47,7 +44,7 @@ const CityDetails = () => {
             setCityPlaces(places)
         }
 
-    }, [data, media])
+    }, [data])
 
     const renderMobileView = () => {
         return(
@@ -73,10 +70,8 @@ const CityDetails = () => {
 
     const renderDesktopView = () => {
         return (
-            <SimpleGrid columns={{sm: 12, md: 6, lg: 6, xl: 6}} spacing={6}>
-                <VStack>
-
-                </VStack>
+            <Box>
+                    <Heading variant={'h4'}>{cityName}</Heading>
                 <Box>
                     {cityImages?.map((image, index) => {
                         const {
@@ -87,14 +82,14 @@ const CityDetails = () => {
 
                         return (
                             <Box key={index} justifyContent={'center'}>
-                                <Image src={url} w={{base: '100vw'}}
-                                       h={{base: '50vh', md: '100vh'}}
-                                       objectFit={{base: 'cover'}} m={'auto'} />
+                                <Image src={url} w={500}
+                                       h={700}
+                                       objectFit={'cover'} m={'auto'} />
                             </Box>
                         )
                     })}
                 </Box>
-            </SimpleGrid>
+            </Box>
 
         )
     }
@@ -107,15 +102,17 @@ const CityDetails = () => {
                 <meta name="description"
                       content="Sharing my travel experience and photos I take while exploring new places" />
             </Helmet>
-            <Box>
+            <Navigation home={false}/>
+            <Box w={'100%'}>
                 {isMobile ? renderMobileView() : renderDesktopView()}
             </Box>
             <Container>
-                <Heading size={'xl'} sx={{color: 'black'}}>{cityName}</Heading>
+                {cityName && <Heading size={'xl'} sx={{color: 'black'}}>{cityName}</Heading>}
+                {description &&
                 <Box mt={4} textAlign={'justify'}>
                     <Text>{description}</Text>
                 </Box>
-
+                }
                 <Grid mt={8} templateColumns={{base: 'repeat(1, 1fr)', sm: 'repeat(2, 1fr)'}} gap={4}>
                     {cityPlaces && cityPlaces.map((place, index) => {
                         const {

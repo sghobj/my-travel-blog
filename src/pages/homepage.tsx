@@ -6,6 +6,7 @@ import GET_CITIES from "../utils/queries/getCities";
 import {useQuery} from "@apollo/client";
 import About from "../components/About/About";
 import PhotoGrid from "../components/PhotoGrid/PhotoGrid";
+import Navigation from "../components/navigation/navigation";
 
 
 
@@ -18,6 +19,7 @@ const HomePage = () => {
 
     return (
         <Box position={'relative'}>
+            <Navigation home={true} />
             <Center top={0} zIndex={-1}>
                 <Flex>
                     <Image

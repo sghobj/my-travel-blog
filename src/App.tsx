@@ -23,7 +23,6 @@ function App() {
                 content="Travel, Sarah Ghobj, Blog, Tourism, Visit Germany"
             />
         </Helmet>
-        <Navigation />
         <BrowserRouter>
             <Routes>
                 <Route path={'/'} element={<HomePage />} />

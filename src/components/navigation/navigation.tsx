@@ -23,7 +23,7 @@ const navLinks = [
     },
 ]
 
-const Navigation = () => {
+const Navigation = ({home}) => {
 
     useEffect(() => {
 
@@ -39,7 +39,7 @@ const Navigation = () => {
                     py="5"
                     bg={'transparent'}
                     display={'flex'}
-                    position={'absolute'}
+                    position={home ? 'absolute' : 'relative'}
                     zIndex={1}
                 >
                     <HStack sx={{margin: 'auto', backgroundColor: 'rgba(255,255,255,0.6)'}} as="nav" spacing="5">
