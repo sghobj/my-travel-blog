@@ -1,12 +1,12 @@
 import {Box, Button, Center, Container, Flex, Heading, HStack, Image, Link, SimpleGrid, Text} from '@chakra-ui/react'
-import '../styles/css/home.css'
+import '../../styles/css/home.css'
 import {ArrowForwardIcon} from "@chakra-ui/icons";
 import {useEffect, useState} from "react";
 import {useQuery} from "@apollo/client";
-import About from "../components/About/About";
-import PhotoGrid from "../components/PhotoGrid/PhotoGrid";
-import Navigation from "../components/navigation/navigation";
-import GET_PORTFOLIO_HOMEPAGE from "../utils/queries/getPortfolioHomePage";
+import About from "../../components/About/About";
+import PhotoGrid from "../../components/PhotoGrid/PhotoGrid";
+import Navigation from "../../components/navigation/navigation";
+import GET_PORTFOLIO_HOMEPAGE from "../../utils/queries/getPortfolioHomePage";
 
 
 
@@ -21,6 +21,7 @@ const HomePage = () => {
     const [title, setTitle] = useState('')
     const [subTitle, setSubTitle] = useState('')
     const [aboutMe, setAboutMe] = useState('')
+    const [skills, setSkills] = useState([])
 
 
     const {data} = useQuery(GET_PORTFOLIO_HOMEPAGE)
@@ -29,7 +30,7 @@ const HomePage = () => {
         if (data) {
             const {homePage} = data
 
-            const {cover: {
+            const {skills, cover: {
                 title, subtitle,
                 description,
                 coverImages,
@@ -39,7 +40,9 @@ const HomePage = () => {
             setAboutMe(description)
             setTitle(title)
             setSubTitle(subtitle)
-            setUrl(coverImages.data.attributes.url)
+            // setUrl(coverImages.data.attributes.url)
+            setUrl(coverImageMobile.data.attributes.url)
+            setSkills(skills)
         }
     }, [data])
 
@@ -58,14 +61,24 @@ const HomePage = () => {
                         src={url} />
                 </Flex>
             </Center>
-            <Box position={'absolute'} top={'50vh'} left={'50vw'} textAlign={'left'} w={'30%'} fontFamily={'Droid Serif,Georgia,serif'} color={'white'}>
-                <Heading>{title}</Heading>
-                <Button colorScheme={'whiteAlpha'} color={'black'} className={'coverBtns'}>About Me</Button>
-                <Button colorScheme={'whiteAlpha'} color={'black'} className={'coverBtns'}>Contact Me</Button>
+            <Box position={'absolute'} h={"fit-content"} top={'35vh'} left={'20vw'} textAlign={'left'} w={'30%'} fontFamily={'Droid Serif,Georgia,serif'} color={'white'}>
+                <Heading variant={'homePagePrimary'}>{title}</Heading>
+                <Button colorScheme={'whiteAlpha'}
+                        onClick={()=> document.getElementById("about-me").scrollIntoView({ behavior: 'smooth', block: 'start' })}
+                        color={'black'}
+                        className={'coverBtns'}>
+                    About Me
+                </Button>
+                <Button
+                    colorScheme={'whiteAlpha'}
+                    color={'black'}
+                    className={'coverBtns'}>
+                    Contact Me
+                </Button>
             </Box>
 
             <Container>
-                <About description={aboutMe}/>
+                <About description={aboutMe} skills={skills}/>
 
                 <PhotoGrid/>
             </Container>

@@ -7,11 +7,11 @@ import "@fontsource/marhey"
 import "@fontsource/handlee"
 import './App.css';
 import {BrowserRouter, Route, Routes} from "react-router-dom";
-import HomePage from "./pages/homepage";
+import HomePage from "./pages/Portfolio/homepage";
 import CityDetails from "./pages/CityDetails";
-import Navigation from "./components/navigation/navigation";
 import Gallery from "./pages/Gallery";
 import {Helmet} from 'react-helmet-async'
+import {toREM} from "./utils/helpers/toREM";
 
 
 function App() {

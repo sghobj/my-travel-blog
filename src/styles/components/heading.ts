@@ -1,4 +1,5 @@
 import { ComponentStyleConfig } from "@chakra-ui/theme";
+import {toREM} from "../../utils/helpers/toREM";
 
 const Heading: ComponentStyleConfig = {
     sizes: {
@@ -24,8 +25,10 @@ const Heading: ComponentStyleConfig = {
         },
     },
     variants: {
-        primary: {
-            // fontFamily: "Stint Ultra Condensed"
+        homePagePrimary: {
+            fontFamily: "kalam",
+            fontSize: toREM(48)
+
         },
         secondary: {
           fontFamily:  'Caveat ,cursive',

@@ -45,3 +45,8 @@
   color: black;
   margin: 1rem 1rem 0 0
 }
+
+.homepageTitle {
+  font-family: 'kalam';
+  /*font-size: toREM(48);*/
+}
