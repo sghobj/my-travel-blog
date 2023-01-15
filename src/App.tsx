@@ -2,6 +2,9 @@ import React from 'react';
 import "@fontsource/stint-ultra-condensed/400.css"
 import "@fontsource/alumni-sans/400.css"
 import "@fontsource/bad-script"
+import "@fontsource/permanent-marker"
+import "@fontsource/marhey"
+import "@fontsource/handlee"
 import './App.css';
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import HomePage from "./pages/homepage";

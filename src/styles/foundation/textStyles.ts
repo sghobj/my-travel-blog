@@ -16,6 +16,16 @@ const textStyles: ThemeOverride['textStyles'] = {
         fontSize: 'xl',
         fontWeight: 'light',
         marginBottom: '5px'
+    },
+    'card-nav-header': {
+        fontFamily: 'Bad Script',
+        fontSize: 'xl',
+        fontWeight: 'Bold',
+    },
+    'card-nav-item': {
+        fontFamily: 'Alumni Sans',
+        fontSize: 'xl',
+        fontWeight: '600',
     }
 }
 

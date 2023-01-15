@@ -26,6 +26,11 @@ const Heading: ComponentStyleConfig = {
     variants: {
         primary: {
             // fontFamily: "Stint Ultra Condensed"
+        },
+        secondary: {
+          fontFamily:  'Caveat ,cursive',
+            fontWeight: 300,
+            color: "gray"
         }
     }
 }

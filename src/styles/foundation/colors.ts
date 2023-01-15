@@ -8,6 +8,16 @@ const colors: ThemeOverride['colors'] = {
     white: '#FFFFFF',
     border: '#F2D1CE',
 
+    /**Pantone
+     *
+     */
+    beaublue: '#ABC1CAff',
+    ceruleanfrost: '#638CADff',
+    platinum: '#E3E9EAff',
+    burnishedbrown: '#927166ff',
+    antiquebrass: '#CE937Cff',
+    gainsboro: '#D3E0E4ff',
+
     /**
      * Pantone:
      * #262223

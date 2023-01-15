@@ -1,20 +1,34 @@
 import {Box, Container, Grid, GridItem, Heading, Image, SimpleGrid, Text, VStack} from "@chakra-ui/react";
 import {useQuery} from "@apollo/client";
-import {useParams} from "react-router-dom";
+import {useLocation, useParams} from "react-router-dom";
 import GET_CITY_DETAILS from "../utils/queries/getCityDetails";
-import React, {useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {Helmet} from 'react-helmet-async'
 import {isMobile, useMobileOrientation} from "react-device-detect";
 import Navigation from "../components/navigation/navigation";
+import Query from "../components/query/Query";
+import GET_COVER_IMAGE from "../utils/queries/getCoverImage";
+import ReactMarkdown from 'react-markdown'
+import HeaderImageMobile from "../components/Svg/HeaderImageMobile";
+import Breadcrumb from "../components/breadcrumb/breadcrumb";
+import CardNavigation from "../components/cardNavigation/CardNavigation";
+import ResponsiveGallery from 'react-responsive-gallery'
 
+type GalleryProps = {
+    url: string,
+    width: number,
+    height: number
+}
 
 const CityDetails = () => {
+
 
     const [cityName, setCityName] = useState('')
     const [description, setDescription] = useState('')
     const [country, setCountry] = useState('')
-    const [cityImages, setCityImages] = useState([])
+    const [cityImage, setCityImage] = useState('')
     const [cityPlaces, setCityPlaces] = useState([])
+    const [chapters, setChapters] = useState([])
 
     const {isPortrait} = useMobileOrientation()
 
@@ -25,22 +39,37 @@ const CityDetails = () => {
         }
     })
 
+    const thingstodoimgs = [
+        {
+            src: 'https://cdn.pixabay.com/photo/2013/09/22/15/29/prairie-dog-184974_960_720.jpg',
+        },
+        {
+            src: 'https://cdn.pixabay.com/photo/2018/03/31/06/31/dog-3277416_960_720.jpg'
+
+        },
+        {
+            src: 'https://cdn.pixabay.com/photo/2019/03/09/17/30/horse-4044547_960_720.jpg'
+        }
+    ]
+
     useEffect(() => {
 
         if (data) {
             const {travelCities} = data
             const {
                 id, attributes: {
-                    name, text, country,
-                    places, images
+                    name, text, country: countryName,
+                    places, images,
+                    chapter
                 }
             } = travelCities.data[0]
 
             setCityName(name)
             setDescription(text)
-            setCountry(country.data.attributes.name)
-            setCityImages(images.data)
+            setCountry(countryName.data.attributes.name)
+            setCityImage(images.data.attributes.url)
             setCityPlaces(places)
+            setChapters(chapter)
         }
 
     }, [data])
@@ -48,21 +77,67 @@ const CityDetails = () => {
     const renderMobileView = () => {
         return (
             <Box>
-                {cityImages?.map((image, index) => {
-                    const {
-                        attributes: {
-                            url, alternativeText
-                        }
-                    } = image
-
-                    return (
-                        <Box key={index} justifyContent={'center'}>
-                            <Image src={url} w={{base: '100vw'}}
-                                   h={{base: '50vh', md: '100vh'}}
-                                   objectFit={{base: 'cover'}} m={'auto'} />
+                        <Box >
+                            <Box>
+                                <Image src={cityImage}
+                                       w={{base: '100vw'}}
+                                       h={{base: '60vh', md: '100vh'}}
+                                       clipPath={'url(#svgHeader)'}
+                                       objectFit={{base: 'cover'}} m={'auto'}
+                                       borderRadius={'0% 0% 60% 70% / 0% 0% 8% 20%'}
+                                />
+                                {/*<HeaderImageMobile id={'svgHeader'}/>*/}
+                            </Box>
+                            <Breadcrumb p={4} items={[{title: 'Home', pathname: '/'},{title: country, pathname: `/${country}`}, {title: cityName, pathname: `/${cityName}`}]}/>
                         </Box>
-                    )
-                })}
+
+
+                <SimpleGrid columns={{sm: 1, md: 2, lg: 2, xl: 2}} position={'relative'}>
+                        <Box p={{base: 0, sm: isMobile && !isPortrait ? 0 : 10}}>
+                            <Container w={{base: '100%', lg: '60%'}}  pt={0}>
+                                <VStack m={'auto'} w={'100%'} display={'block'}>
+                                    {cityName && <Heading size={'xl'} fontFamily={'Marhey'} fontWeight={300} textAlign={'left'} color={"black"}>{cityName}</Heading>}
+                                    {/*{cover.subtitle && <Heading size={'md'} textAlign={'left'} fontWeight={200}>{cover.subtitle}</Heading>}*/}
+                                    {/*{cover.description && <Heading size={'md'} textAlign={'left'} variant={'secondary'}>{cover.description}</Heading>}*/}
+                                    <Box fontFamily={'Handlee'} fontSize={'1.2rem'} textAlign={'justify'}>
+                                        <ReactMarkdown>{description}</ReactMarkdown>
+                                    </Box>
+                                </VStack>
+                            </Container>
+
+                        </Box>
+                    <Container p={'0 30px'}>
+                        <CardNavigation />
+                    </Container>
+                    {/*<SimpleGrid columns={3} p={10}>*/}
+                    {/*    {cityImages.map((img, index) => {*/}
+
+                    {/*        return(*/}
+                    {/*            <Image key={index} src={img.attributes.url} />*/}
+                    {/*        )*/}
+                    {/*    })}*/}
+                    {/*</SimpleGrid>*/}
+                    <Container>
+                        <Heading id={'todo'} size={'lg'} fontFamily={'Marhey'} fontWeight={300} textAlign={'left'} color={"black"}>Thing to do in Amman</Heading>
+                        <Text fontFamily={'Handlee'} fontSize={'1.2rem'} textAlign={'justify'}>
+                            There are so many things that you can do in Amman, either during the day or at night, especially in the summer.
+                            There are so many things that you can do in Amman, either during the day or at night, especially in the summer.
+                            There are so many things that you can do in Amman, either during the day or at night, especially in the summer.
+                            There are so many things that you can do in Amman, either during the day or at night, especially in the summer.
+                            There are so many things that you can do in Amman, either during the day or at night, especially in the summer.
+                            There are so many things that you can do in Amman, either during the day or at night, especially in the summer.
+                            There are so many things that you can do in Amman, either during the day or at night, especially in the summer.
+                            There are so many things that you can do in Amman, either during the day or at night, especially in the summer.
+                        </Text>
+                        <ResponsiveGallery images={thingstodoimgs} />
+
+
+                        <Heading mt={8} id={'transport'} size={'lg'} fontFamily={'Marhey'} fontWeight={300} textAlign={'left'} color={"black"}>Transportation tips</Heading>
+                        <Text fontFamily={'Handlee'} fontSize={'1.2rem'} textAlign={'justify'}>
+                            There are so many things that you can do in Amman, either during the day or at night, especially in the summer.
+                        </Text>
+                    </Container>
+                </SimpleGrid>
             </Box>
         )
     }
@@ -70,39 +145,49 @@ const CityDetails = () => {
     const renderDesktopView = () => {
         return (
             <Box>
+                <Query query={GET_COVER_IMAGE} slug={undefined}>
+                    {({data: {cityDetailsPage}}) => {
+                        const {cover: { data: {
+                            attributes: {url:imgUrl}}
+                        }} = cityDetailsPage.data.attributes
+
+                        return(
+                            <Box sx={{backgroundImage: `url(${imgUrl})`, backgroundSize: '100vw 100vh'}} h={{base: '70vh',sm: '70vh', md: '60vh', lg:'70vh'}}>
+                                {/*{cover && <SimpleGrid columns={{md: 1, lg: 2}} m={'auto'} h={'100%'} p={5}>*/}
+                                {/*    <VStack color={'white'} m={'auto'}>*/}
+                                {/*        <Heading variant={'h2'} size={'4xl'} m={{sm: '1rem auto', md: '1rem auto'}}*/}
+                                {/*                 textDecoration={'underline'}>{cityName.toUpperCase()}</Heading>*/}
+                                {/*        <Heading sx={{fontSize: '1.5rem'}}>{cover.description}</Heading>*/}
+                                {/*    </VStack>*/}
+                                {/*</SimpleGrid>*/}
+                                {/*}*/}
+                            </Box>
+
+                        )
+                    }}
+
+
+                </Query>
+
                 <SimpleGrid columns={{sm: 1, md: 2, lg: 2, xl: 2}} position={'relative'}>
-                    <Box display={'flex'} w={{lg: '30rem'}} h={{lg: '30rem'}} bg={'gray'} m={ 'auto'} borderRadius={'50%'}>
-                        <Box display={'flex'} w={{lg: '80%'}} h={{lg: '80%'}} bg={'white'} m={ 'auto'} borderRadius={'50%'}>
-                            <Heading variant={'h2'} size={'4xl'} m={{sm: '1rem auto', md: 'auto auto'}}>{cityName}</Heading>
+                    <Box>
+                        <Box justifyContent={'center'} p={{sm: 10}}>
+                            {description &&
+                            <Container w={{lg: '60%'}} p={'20px 0px'}>
+                                <VStack m={'auto'} textAlign={'justify'}>
+                                    <ReactMarkdown children={description} />
+                                </VStack>
+                            </Container>
+                            }
                         </Box>
                     </Box>
-                    <Box>
-                        {cityImages?.map((image, index) => {
-                            const {
-                                attributes: {
-                                    url, alternativeText
-                                }
-                            } = image
+                    <SimpleGrid columns={3} p={10}>
 
-                            return (
-                                <Box key={index} justifyContent={'center'} p={{sm: 10}}>
-                                    <Image src={url} w={700}
-                                           h={700}
-                                           objectFit={'cover'} m={'auto'} />
-                                </Box>
-                            )
-                        })}
-                    </Box>
+                                <Image src={cityImage} />
+
+
+                    </SimpleGrid>
                 </SimpleGrid>
-
-                {description &&
-                <Container w={{lg: '50%'}} p={'20px 40px'}>
-                    <VStack m={'auto'}>
-                        <Heading size={'xl'}>Description</Heading>
-                        <Text textAlign={'justify'}>{description}</Text>
-                    </VStack>
-                </Container>
-                }
             </Box>
         )
     }
@@ -114,12 +199,19 @@ const CityDetails = () => {
                 <meta name="description"
                       content="Sharing my travel experience and photos I take while exploring new places" />
             </Helmet>
-            <Navigation home={false} />
+            <Navigation home={true} />
             <Box w={'100%'}>
                 {isMobile ? renderMobileView() : renderDesktopView()}
             </Box>
             <Container>
-                <Grid mt={8} templateColumns={{base: 'repeat(1, 1fr)', sm: 'repeat(2, 1fr)'}} gap={4}>
+                <Grid mt={8}
+                      templateColumns={{
+                          base: 'repeat(1, 1fr)',
+                          sm:  'repeat(3, 1fr)',
+                          md: 'repeat(4, 1fr)',
+                          lg: 'repeat(6, 1fr)',
+                      }}
+                      gap={10}>
                     {cityPlaces && cityPlaces.map((place, index) => {
                         const {
                             name,
@@ -129,27 +221,17 @@ const CityDetails = () => {
 
                         return (
                             <GridItem key={index}>
-                                <Box>
+                                <Box border={'1.2px solid gray'} p={2}>
                                     <Box>
-                                        {placeImages.data && placeImages.data.map((img, i) => {
-                                            const {
-                                                id, attributes: {
-                                                    url
-                                                }
-                                            } = img
-                                            return (
-                                                <Image key={i} src={url} />
-
-                                            )
-                                        })
-                                        }
+                                                <Image  w={'100%'} src={placeImages.data[0].attributes.url} />
                                     </Box>
-                                    <Heading size={'md'}>{name}</Heading>
+                                    <Heading size={'md'} m={'10px 0'}>{name}</Heading>
                                 </Box>
                             </GridItem>
 
                         )
                     })}
+
                 </Grid>
             </Container>
         </Box>

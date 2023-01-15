@@ -1,23 +1,23 @@
-import {Box, Heading, Text} from "@chakra-ui/react";
+import {Box, Heading, SimpleGrid, Text} from "@chakra-ui/react";
+import ReactMarkdown from "react-markdown";
+import React from "react";
 
 
-const About = () => {
+const About = ({description}) => {
 
     return(
-        <Box id={'about-me'}
-             sx={{
-                 width: {md: '100%', lg: '75%'},
-                 margin: 'auto',
-                 border: '1px solid black',
-                 backgroundColor: '#FBF8F1'}}>
-            <Heading mt={2}>About Me</Heading>
-            <Box p={5}>
-                <Text textAlign={'justify'}>My name is Sarah Ghobj, a passionate frontend developer, athletic
-                                            and artist. Travelling is one of my other hobbies,
-                                            I love exploring new places and share my experience with others
-                                            maybe it can inspire others when planning next holiday
-                                            destinations.</Text>
+        <Box id={'about-me'}>
+            <Box width={'fit-content'} textAlign={'center'} m={'20px auto'}>
+                <Heading mt={3} size={'2xl'} color={'#A15655'}>About Me</Heading>
+                <div style={{borderBottom: '2px solid', color: '#F2CF53'}}/>
             </Box>
+
+            <SimpleGrid columns={{base: 1, md: 2}}>
+                <Box p={5} textAlign={'justify'} fontFamily={'Droid Serif,Georgia,serif'} fontSize={20}>
+                    <ReactMarkdown>{description}</ReactMarkdown>
+                </Box>
+            </SimpleGrid>
+
         </Box>
     )
 }
